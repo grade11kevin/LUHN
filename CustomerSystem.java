@@ -15,7 +15,6 @@ class CustomerSystem{
         String userInput, enterCustomerOption, generateCustomerOption, exitCondition;
         enterCustomerOption = "1";
         generateCustomerOption = "2";
-        confirmPostalCodeValidation = "5";
         exitCondition = "9";
     
 
