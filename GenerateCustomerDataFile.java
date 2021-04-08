@@ -17,7 +17,7 @@ public class GenerateCustomerDataFile {
 
 
         try{
-            File myText = new File("customerData.txt");
+            File myText = new File("CustomerData.txt");
             Scanner myReader = new Scanner(myText);
             while (myReader.hasNextLine()){
                 data = myReader.nextLine();
