@@ -134,59 +134,59 @@ class CustomerSystem{
             }
 
 
-            for (int j = 0; j <= 8; j += 2){
-                digit = digit + reverseCard.charAt(j);
-                cardNumber = Integer.parseInt(digit);
-                sum1 = sum1 + cardNumber;
-                digit = "";
+            for (int j = 0; j <= 8; j += 2){ //Loop that counts by twos in order to isolate odd digits
+                digit = digit + reverseCard.charAt(j); //Turns the digit variable to the digit on the corresponding spot in the reversedCard
+                cardNumber = Integer.parseInt(digit); //Turns the digit into a number
+                sum1 = sum1 + cardNumber; //adds the number into the sum1
+                digit = ""; //Resets the digit
             } 
 
-            for (int k = 1; k <= 7; k += 2){
-                digit = digit + reverseCard.charAt(k);
-                cardNumber = Integer.parseInt(digit);
-                cardNumber = cardNumber * 2;
-                newNum = String.valueOf(cardNumber);
-                if (newNum.length() == 2){
-                    digit1String = digit1String + newNum.charAt(0);
+            for (int k = 1; k <= 7; k += 2){ //Loops in order to isolate even digits
+                digit = digit + reverseCard.charAt(k); //Adds the character in the kth spot of the card
+                cardNumber = Integer.parseInt(digit); //Turns the character into a number
+                cardNumber = cardNumber * 2; //Multiplies the character by 2
+                newNum = String.valueOf(cardNumber); //Turns the number back into a string
+                if (newNum.length() == 2){ //If the number has two digits, run internal code
+                    digit1String = digit1String + newNum.charAt(0); //Separates both digits
                     digit2String = digit2String + newNum.charAt(1);
-                    digit1 = Integer.parseInt(digit1String);
+                    digit1 = Integer.parseInt(digit1String); //Turns each digit into a number
                     digit2 = Integer.parseInt(digit2String);
-                    digitSum = digit1 + digit2;
-                    sum2 = sum2 + digitSum;
-                    digitSum = 0;
+                    digitSum = digit1 + digit2; //Adds the digits together
+                    sum2 = sum2 + digitSum; //Adds the digitSum to the sum2
+                    digitSum = 0; //Resets digitSum and the digitStrings, as well as the digits
                     digit1String = "";
                     digit2String = "";
                     digit1 = 0;
                     digit2 = 0;
                 }
-                else{
+                else{ //If number of digits is not 2, just add the sum2 to cardNumber
                     sum2 = sum2 + cardNumber;
                 }
                     
-                digit = "";
+                digit = ""; //Resets digit
             }
 
-            totalSum = sum1 + sum2;
+            totalSum = sum1 + sum2; //Adds the sum1 and sum2 together
 
-            totalSumString = String.valueOf(totalSum);
-            digit1String = digit1String + totalSumString.charAt(0);
-            if (totalSumString.length() == 2){
-                digit2String = digit2String + totalSumString.charAt(1);
-                digit2 = Integer.parseInt(digit2String);
-                if (digit2 == 0){ //Change this to boolean first
+            totalSumString = String.valueOf(totalSum); //Turns the total sum into a string
+            digit1String = digit1String + totalSumString.charAt(0); //Turns digit1String into the 1st digit of totalSumString
+            if (totalSumString.length() == 2){ //If the total sum has two digits...
+                digit2String = digit2String + totalSumString.charAt(1); //Digit2String is equal to the 2nd digit of totalSumString
+                digit2 = Integer.parseInt(digit2String); //Turns the second digit into a number
+                if (digit2 == 0){ //If the digit is 0, it is valid
                     System.out.println("valid");
                 }
-                else{
+                else{ //If the digit is not 0, it is invalid
                     System.out.println("Not valid");
                 }
             }
             else{
-                digit1 = Integer.parseInt(digit1String);
+                digit1 = Integer.parseInt(digit1String); //Turns digit1String into a number
 
-                if (digit1 == 0){ //Change to boolean first
+                if (digit1 == 0){ //Change to boolean first //If digit1 is 0, valid
                     System.out.println("valid");
                 }
-                else{
+                else{ //If it is not 0, it is invalid
                     System.out.println("Not valid");
                 }
 
@@ -194,8 +194,8 @@ class CustomerSystem{
 
         }
 
-        catch(Exception e){
-            System.out.println("Something went wrong");
+        catch(Exception e){ //Catches errors that could be made 
+            System.out.println("Something went wrong"); //Prints error message
         }
     }
 
