@@ -6,7 +6,7 @@
 import java.util.*;
 import java.io.*;
 // More packages may be imported in the space below
-// abcdefg
+
 
 class CustomerSystem{
     public static void main(String[] args){             
@@ -50,7 +50,6 @@ class CustomerSystem{
         .concat("2. Generate Customer data file\n")
         .concat("3. Report on total Sales (Not done in this part)\n")
         .concat("4. Check for fraud in sales data (Not done in this part)\n")
-        .concat("5. Confirm validation of postal code\n")
         .concat("9. Quit\n")
         .concat("Enter menu option (1-9)\n")
         );
@@ -68,35 +67,28 @@ class CustomerSystem{
 
         System.out.println("Please enter your postal code: ");
         String postalCode = reader.nextLine();
+        String postalCodeValidation = validatePostalCode(postalCode);
+
         System.out.println("Please enter your credit card number");
         String creditCardNum = reader.nextLine();
 
     }
 
     public static void validatePostalCode(String[] args){
-        String fileName = "postal_codes.csv";
-        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        String line = reader.readLine();
-        
-
-        while(line != null){
-            if (line.contains(postalSlice)){
-                return true;
-
+        try{
+            File postalcodefile = new File("postal_codes.csv");
+            Scanner reader = new Scanner(postalcodefile);
+            while (reader.hasNextLine()){
+                String data = reader.nextLine();
+                System.out.println(data);
             }
-            line = reader.readLine();
+            reader.close();
+        } catch (FileNotFoundException e){
+            System.out.println("Please enter a valid postal code");
+            e.printStackTrace();
         }
-
-
-
-
-
-
-        reader.close();
-        }
-
-    
-
+            }
+        
     
     public static void generateCustomerDataFile(){
     }
