@@ -80,11 +80,11 @@ class CustomerSystem{
         System.out.println("Please enter the name of your city:"); // prompts user for city
         city = reader.nextLine();
 
-        /*
+        
         System.out.println("Please enter your postal code: "); // asks user for postal code
         String postalCode = reader.nextLine();
         String postalCodeValidation = validatePostalCode(postalCode); // calls from the validatePostalCode method to determine if the postal code is valid or not
-        */
+        
         
         System.out.println("Please enter your credit card number"); // asks user for credit card number
         while(!validateCreditCard(creditCardNum = reader.nextLine())){ //Loops if the method returns "false", and prompts user to reinput the credit card
