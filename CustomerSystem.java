@@ -5,8 +5,8 @@
 
 import java.util.*;
 import java.io.*;
-// More packages may be imported in the space below
 
+// More packages may be imported in the space below
 
 class CustomerSystem{
     public static void main(String[] args){             
@@ -19,7 +19,6 @@ class CustomerSystem{
     
 
         // More variables for the main may be declared in the space below
-
 
         do{
             printMenu();                                    // Printing out the main menu
@@ -64,13 +63,17 @@ class CustomerSystem{
         System.out.println("Please enter the name of your city:"); // prompts user for city
         String city = reader.nextLine();
 
+        
         System.out.println("Please enter your postal code: "); // asks user for postal code
         String postalCode = reader.nextLine();
         String postalCodeValidation = validatePostalCode(postalCode); // calls from the validatePostalCode method to determine if the postal code is valid or not
-
+        
+        
         System.out.println("Please enter your credit card number"); // asks user for credit card number
-        String creditCardNum = reader.nextLine();
-
+        String creditCardNum;
+        while(!validateCreditCard(creditCardNum = reader.nextLine())){
+            System.out.println("Invalid credit card number. Please enter a valid credit card number.");
+        }
     }
 
     public static void validatePostalCode(String[] args){
@@ -93,11 +96,9 @@ class CustomerSystem{
     public static void generateCustomerDataFile(){
     }
 
-    public static boolean validateCreditCard(){
-        Scanner sc = new Scanner(System.in); //Initializes all the variables that are needed in the card validation
-        boolean cardDigitCheck = false; //These are local variables 
+    public static boolean validateCreditCard(String creditCardNum){
+        //These are local variables 
         String reverseCard = "";
-        //String creditCard = ""; No longer need this. Was used to test the code by itself 
         String digit = "";
         int cardNumber = 0;
         int sum1 = 0;
@@ -111,35 +112,22 @@ class CustomerSystem{
         int totalSum = 0;
         String totalSumString = "";
 
-        try{  //Try and catch loop just in case used inputs invalid credit card and causes an error to occur
-            while (cardDigitCheck != true){ //While loop to make sure user inputs the correct number of digits
-                /*System.out.print("Please enter credit card number (No spaces): ");
-                 creditCard = sc.nextLine(); */ //Was used in order to test the credit card validation code
+        try{  //Try and catch loop just in case used inputs invalid credit card and causes an error to occur //While loop to make sure user inputs the correct number of digits
+            int creditCardLength = creditCardNum.length(); //Checks the digits of the credit card
 
-                int creditCardLength = creditCardNum.length(); //Checks the digits of the credit card
-
-                if (creditCardLength != 9){ //If the card is not equal to 9 digits, will reloop
-                    System.out.println("\nPlease enter a card with a valid number of digits.\n");
-                }
-
-                else { //Releases the loop if the card has exactly 9 digits
-                    cardDigitCheck = true;
-                }
-
+            if (creditCardLength != 9){ //If the card is not equal to 9 digits, will reloop
+                System.out.println("\nPlease enter a card with a valid number of digits.\n");
+                return false;
             }
-
             for (int i = 8; i >= 0; i --){ //Reverses the digits of the card
                 reverseCard = reverseCard + creditCardNum.charAt(i);
             }
-
-
             for (int j = 0; j <= 8; j += 2){ //Loop that counts by twos in order to isolate odd digits
                 digit = digit + reverseCard.charAt(j); //Turns the digit variable to the digit on the corresponding spot in the reversedCard
                 cardNumber = Integer.parseInt(digit); //Turns the digit into a number
                 sum1 = sum1 + cardNumber; //adds the number into the sum1
                 digit = ""; //Resets the digit
             } 
-
             for (int k = 1; k <= 7; k += 2){ //Loops in order to isolate even digits
                 digit = digit + reverseCard.charAt(k); //Adds the character in the kth spot of the card
                 cardNumber = Integer.parseInt(digit); //Turns the character into a number
@@ -160,8 +148,7 @@ class CustomerSystem{
                 }
                 else{ //If number of digits is not 2, just add the sum2 to cardNumber
                     sum2 = sum2 + cardNumber;
-                }
-                    
+                } 
                 digit = ""; //Resets digit
             }
 
@@ -173,29 +160,31 @@ class CustomerSystem{
                 digit2String = digit2String + totalSumString.charAt(1); //Digit2String is equal to the 2nd digit of totalSumString
                 digit2 = Integer.parseInt(digit2String); //Turns the second digit into a number
                 if (digit2 == 0){ //If the digit is 0, it is valid
-                    System.out.println("valid");
+                    return true;
                 }
                 else{ //If the digit is not 0, it is invalid
-                    System.out.println("Not valid");
+                    return false;
                 }
             }
             else{
                 digit1 = Integer.parseInt(digit1String); //Turns digit1String into a number
 
                 if (digit1 == 0){ //Change to boolean first //If digit1 is 0, valid
-                    System.out.println("valid");
+                    return true;
                 }
                 else{ //If it is not 0, it is invalid
-                    System.out.println("Not valid");
+                    return false;
                 }
-
             }
-
         }
-
-        catch(Exception e){ //Catches errors that could be made 
+        catch(NumberFormatException e){ //Catches numberFormatException errors and prints corresponding message
+            System.out.println("Please enter only numbers");
+        }
+        catch(Exception e){ //Catches any other errors that could be made 
             System.out.println("Something went wrong"); //Prints error message
         }
+
+        return false; //Returns a boolean value of false
     }
 
 }
