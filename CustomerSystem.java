@@ -96,21 +96,21 @@ class CustomerSystem{
         enteredInfo = true; //Confirms that info was entered
     }
 
-    public static boolean validatePostalCode(String postalCode) throws IOException { 
-        postalCode = postalCode.toUpperCase();
-        File text = new File ("postal_codes.csv");
-        Scanner reader = new Scanner(text);
-        int pclength = postalCode.length();
-        String line;
-        if (pclength >= 3 && pclength<=6){
-            while(reader.hasNextLine()){
-                line = reader.nextLine();
-                if (line.substring(0,2).equals(postalCode.substring(0,2))){
-                    return true;
+    public static boolean validatePostalCode(String postalCode) throws IOException {  
+        postalCode = postalCode.toUpperCase(); //Makes string uppercase
+        File text = new File ("postal_codes.csv"); //Makes a new file that corresponds to postal_codes.csv
+        Scanner reader = new Scanner(text); //Creeates a new scanner to read the file
+        int pclength = postalCode.length(); //Creates integer to determine length of inputted postal code
+        String line; //Initializes line String
+        if (pclength >= 3 && pclength<=6){ //If pcLength is more or equal to 3 and less or equal to 6, run code
+            while(reader.hasNextLine()){ //While reader still has another line to read
+                line = reader.nextLine(); //Copies file line to line variable
+                if (line.substring(0,2).equals(postalCode.substring(0,2))){ //If the first 3 characters of the line on the file match the inputted postal code
+                    return true; //Return true for method
                 }
             }
         }
-        return false;
+        return false; //If unvalidated, return false
     }
 
         
