@@ -17,7 +17,7 @@ public class GenerateCustomerDataFile {
 
 
         try{
-            File myText = new File("CustomerData.txt");
+            File myText = new File("CustomerDataFile.csv");
             Scanner myReader = new Scanner(myText);
             while (myReader.hasNextLine()){
                 data = myReader.nextLine();
@@ -29,7 +29,7 @@ public class GenerateCustomerDataFile {
             idString = String.valueOf(id);
 
 
-            FileWriter fw = new FileWriter("customerData.txt");
+            FileWriter fw = new FileWriter("CustomerDataFile.csv");
             fw.write("Name: " + fName + " " + lName + "\n");
             fw.write("City: " + city + "\n");
             fw.write("Postal Code " + postalCode + "\n");

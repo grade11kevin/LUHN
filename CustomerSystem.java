@@ -1,15 +1,33 @@
 // Throughout this project, the use of data structures are not permitted such as methods like .split and .toCharArray
+/*
+ * Date: April 4th, 2021
+ * Names: Derek Xu and Kevin Chen
+ * Teacher: Mr. ho
+ * Description: Allows user to input information and program validates the information, then generates a customer data file
+ * */
 
 
 
-
-import java.util.*;
+import java.util.*; 
 import java.io.*;
+import java.io.File; //Initialized utilities and packages
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.FileWriter;
 
 // More packages may be imported in the space below
 
 class CustomerSystem{
-    public static void main(String[] args){             
+
+    public static String firstName; //Initialized global variables
+    public static String lastName;
+    public static String city;
+    public static String postalCode;
+    public static String creditCardNum;
+    public static boolean enteredInfo = false;
+
+    public static void main(String[] args) throws IOException{             
         // Please do not edit any of these variables
         Scanner reader = new Scanner(System.in);
         String userInput, enterCustomerOption, generateCustomerOption, exitCondition;
@@ -19,7 +37,6 @@ class CustomerSystem{
     
 
         // More variables for the main may be declared in the space below
-
         do{
             printMenu();                                    // Printing out the main menu
             userInput = reader.nextLine();                  // User selection from the menu
@@ -56,24 +73,26 @@ class CustomerSystem{
     public static void enterCustomerInfo() {
         Scanner reader =  new Scanner(System.in);
         System.out.println("Please enter your first name:"); // prompts user for first name
-        String firstName = reader.nextLine();
+        firstName = reader.nextLine();
         System.out.println("Please enter your last name:"); // prompts user for last name
-        String lastName = reader.nextLine();
+        lastName = reader.nextLine();
 
         System.out.println("Please enter the name of your city:"); // prompts user for city
-        String city = reader.nextLine();
+        city = reader.nextLine();
 
-        
+        /*
         System.out.println("Please enter your postal code: "); // asks user for postal code
         String postalCode = reader.nextLine();
         String postalCodeValidation = validatePostalCode(postalCode); // calls from the validatePostalCode method to determine if the postal code is valid or not
-        
+        */
         
         System.out.println("Please enter your credit card number"); // asks user for credit card number
-        String creditCardNum;
-        while(!validateCreditCard(creditCardNum = reader.nextLine())){
+        while(!validateCreditCard(creditCardNum = reader.nextLine())){ //Loops if the method returns "false", and prompts user to reinput the credit card
             System.out.println("Invalid credit card number. Please enter a valid credit card number.");
         }
+
+
+        enteredInfo = true; //Confirms that info was entered
     }
 
     public static void validatePostalCode(String[] args){
@@ -93,7 +112,45 @@ class CustomerSystem{
         
     
     
-    public static void generateCustomerDataFile(){
+    public static void generateCustomerDataFile() throws IOException{ //Method to generate customer data file
+        String idString = ""; //Initializes necessary variablse
+        String data = "";
+        int id = 0;
+
+        try{ //Tries the code to catch errors
+            File myText = new File("CustomerDataFile.csv"); //Creates new File by reading CustomerDataFile.csv
+            Scanner myReader = new Scanner(myText); //Creates a new Scanner based off of myText
+            while (myReader.hasNextLine()){ //While nyReader still has another line to read, input the line into data variable
+                data = myReader.nextLine();
+            }
+            idString = data.substring(9); //idString is equal to the 10th character of the last line of the csv and onwards
+            id = Integer.parseInt(idString); //Turns the string into an integer
+            if(enteredInfo){ //If the user has entered customer info, do add one to the id number and change it back into a string
+                id = id + 1;
+                idString = String.valueOf(id);
+            }
+            else{ //Else, do not change the id number and immediately turn it back into a string
+                idString = String.valueOf(id);
+            }
+
+            FileWriter fw = new FileWriter("CustomerDataFile.csv"); //creates a new FileWriter based on the CustomerDataFile.csv
+            fw.write("Name: " + firstName + " " + lastName + "\n"); //Writes New information into the file
+            fw.write("City: " + city + "\n");
+            fw.write("Postal Code " + postalCode + "\n");
+            fw.write("Credit Card: " + creditCardNum + "\n");
+            fw.write("User ID: " + idString);
+            fw.close(); //Closes the fileWriter
+
+            System.out.println("\nSuccessfully generated file!\n"); 
+
+            enteredInfo = false; //resets the enteredInfo boolean
+
+            myReader.close(); //Closes the reader
+        } 
+        catch(FileNotFoundException e){ //If error occurs, tell the user and print the error that has occured
+            System.out.println("An error has occured");
+            e.printStackTrace();
+        }
     }
 
     public static boolean validateCreditCard(String creditCardNum){
