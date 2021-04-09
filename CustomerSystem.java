@@ -27,7 +27,7 @@ class CustomerSystem{
     public static String creditCardNum;
     public static boolean enteredInfo = false;
 
-    public static void main(String[] args) throws IOException{             
+    public static void main(String[] args) throws Exception{             
         // Please do not edit any of these variables
         Scanner reader = new Scanner(System.in);
         String userInput, enterCustomerOption, generateCustomerOption, exitCondition;
@@ -70,7 +70,7 @@ class CustomerSystem{
         );
     }
 
-    public static void enterCustomerInfo() {
+    public static void enterCustomerInfo() throws Exception{
         Scanner reader =  new Scanner(System.in);
         System.out.println("Please enter your first name:"); // prompts user for first name
         firstName = reader.nextLine();
@@ -83,7 +83,9 @@ class CustomerSystem{
         
         System.out.println("Please enter your postal code: "); // asks user for postal code
         String postalCode = reader.nextLine();
-        String postalCodeValidation = validatePostalCode(postalCode); // calls from the validatePostalCode method to determine if the postal code is valid or not
+        while(!validatePostalCode(postalCode)){
+            System.out.println("Invalid postal code. Please enter a valid postal code");
+        } // calls from the validatePostalCode method to determine if the postal code is valid or not
         
         
         System.out.println("Please enter your credit card number"); // asks user for credit card number
@@ -95,20 +97,23 @@ class CustomerSystem{
         enteredInfo = true; //Confirms that info was entered
     }
 
-    public static void validatePostalCode(String[] args){
-        try{
-            File postalcodefile = new File("postal_codes.csv"); // reads the postal_code.csv
-            Scanner reader = new Scanner(postalcodefile);
-            while (reader.hasNextLine()){
-                String data = reader.nextLine();
-                System.out.println(data); // prints out postal code  to match with the postal_codes.csv file to vladiate if its correct or not
+    public static boolean validatePostalCode(String postalCode) throws Exception {
+        postalCode = postalCode.toUpperCase();
+        File text = new File ("postal_codes.csv");
+        Scanner readPostalCode = new Scanner(text);
+        int pclength = postalCode.length();
+        String line;
+        if (pclength >= 3 && pclength<=6){
+            while(readPostalCode.hasNextLine()){
+                line = readPostalCode.nextLine();
+                if (line.contains(postalCode.substring(0,2))){
+                    return true;
+                }
             }
-            reader.close();
-        } catch (FileNotFoundException e){ //If the user inputs an invalid postal code; something that doesn't match any of the postal codes in the postal_codes.csv file, it will prompt user to try again and type a valid one
-            System.out.println("Please enter a valid postal code");
-            e.printStackTrace();
         }
-            }
+        return false;
+    }
+
         
     
     
