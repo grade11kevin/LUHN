@@ -82,8 +82,7 @@ class CustomerSystem{
 
         
         System.out.println("Please enter your postal code: "); // asks user for postal code
-        String postalCode = reader.nextLine();
-        while(!validatePostalCode(postalCode)){
+        while(!validatePostalCode(postalCode = reader.nextLine())){
             System.out.println("Invalid postal code. Please enter a valid postal code");
         } // calls from the validatePostalCode method to determine if the postal code is valid or not
         
@@ -97,16 +96,16 @@ class CustomerSystem{
         enteredInfo = true; //Confirms that info was entered
     }
 
-    public static boolean validatePostalCode(String postalCode) throws Exception {
+    public static boolean validatePostalCode(String postalCode) throws IOException { 
         postalCode = postalCode.toUpperCase();
         File text = new File ("postal_codes.csv");
-        Scanner readPostalCode = new Scanner(text);
+        Scanner reader = new Scanner(text);
         int pclength = postalCode.length();
         String line;
         if (pclength >= 3 && pclength<=6){
-            while(readPostalCode.hasNextLine()){
-                line = readPostalCode.nextLine();
-                if (line.contains(postalCode.substring(0,2))){
+            while(reader.hasNextLine()){
+                line = reader.nextLine();
+                if (line.substring(0,2).equals(postalCode.substring(0,2))){
                     return true;
                 }
             }
